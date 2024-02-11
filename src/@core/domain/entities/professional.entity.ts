@@ -3,7 +3,6 @@ import { Phone } from '../value-objects/phone.value-object';
 import { Category } from './category.entity';
 
 export type TProfessionalProps = {
-  id?: number;
   name: string;
   phone: Phone;
   email: Email;
@@ -11,6 +10,7 @@ export type TProfessionalProps = {
 };
 
 export class Professional {
+  private id: number;
   private props: TProfessionalProps;
 
   private constructor(props: TProfessionalProps) {
@@ -21,42 +21,42 @@ export class Professional {
     return new Professional(props);
   }
 
-  get id(): number {
-    return this.props.id;
+  getId(): number {
+    return this.id;
   }
 
-  get name(): string {
+  getName(): string {
     return this.props.name;
   }
-  get phone(): Phone {
+  getPhone(): Phone {
     return this.props.phone;
   }
-  get categories(): Category[] {
+  getCategories(): Category[] {
     return this.props.categories;
   }
-  get email(): Email {
+  getEmail(): Email {
     return this.props.email;
   }
-  set id(value: number) {
-    this.props.id = value;
+  setId(value: number) {
+    this.id = value;
   }
-  set name(value: string) {
+  setName(value: string) {
     this.props.name = value;
   }
 
-  set phone(value: Phone) {
+  setPhone(value: Phone) {
     this.props.phone = value;
   }
-  set email(value: Email) {
+  setEmail(value: Email) {
     this.props.email = value;
   }
-  set categories(value: Category[]) {
+  setCategories(value: Category[]) {
     this.props.categories = value;
   }
   public toString(): string {
-    return JSON.stringify(this.props);
+    return JSON.stringify({ id: this.id, ...this.props });
   }
-  public toJSON(): TProfessionalProps {
-    return this.props;
+  public toJSON() {
+    return { id: this.id, ...this.props };
   }
 }

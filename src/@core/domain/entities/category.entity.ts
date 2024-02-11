@@ -1,10 +1,10 @@
 export type TCategoryProps = {
-  id?: number;
   name: string;
   description?: string;
 };
 
 export class Category {
+  private id: number;
   private props: TCategoryProps;
 
   private constructor(props: TCategoryProps) {
@@ -15,29 +15,29 @@ export class Category {
     return new Category(props);
   }
 
-  get id(): number {
-    return this.props.id;
+  getId(): number {
+    return this.id;
   }
-  get name(): string {
+  getName(): string {
     return this.props.name;
   }
-  get description(): string {
+  getDescription(): string {
     return this.props.description;
   }
-  set id(value: number) {
-    this.props.id = value;
+  setId(value: number) {
+    this.id = value;
   }
-  set name(value: string) {
+  setName(value: string) {
     this.props.name = value;
   }
-  set description(value: string) {
+  setDescription(value: string) {
     this.props.description = value;
   }
 
   public toString(): string {
-    return JSON.stringify(this.props);
+    return JSON.stringify({ id: this.id, ...this.props });
   }
-  public toJSON(): TCategoryProps {
-    return this.props;
+  public toJSON() {
+    return { id: this.id, ...this.props };
   }
 }

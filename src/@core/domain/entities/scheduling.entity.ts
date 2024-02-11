@@ -4,7 +4,6 @@ import { Service } from './services.entity';
 import { Status } from './status.entity';
 
 export type TSchedulingProps = {
-  id?: number;
   service: Service;
   date: Date;
   status: Status;
@@ -15,6 +14,7 @@ export type TSchedulingProps = {
 };
 
 export class Scheduling {
+  private id: number;
   private props: TSchedulingProps;
   private constructor(props: TSchedulingProps) {
     this.props = props;
@@ -22,46 +22,46 @@ export class Scheduling {
   public static create(props: TSchedulingProps): Scheduling {
     return new Scheduling(props);
   }
-  get id(): number {
-    return this.props.id;
+  getId(): number {
+    return this.id;
   }
-  get service(): Service {
+  getService(): Service {
     return this.props.service;
   }
-  get date(): Date {
+  getDate(): Date {
     return this.props.date;
   }
-  get status(): Status {
+  getStatus(): Status {
     return this.props.status;
   }
-  get discount(): number {
+  getDiscount(): number {
     return this.props.discount;
   }
-  get total(): number {
+  getTotal(): number {
     return this.props.total;
   }
-  set id(value: number) {
-    this.props.id = value;
+  setId(value: number) {
+    this.id = value;
   }
-  set service(value: Service) {
+  setService(value: Service) {
     this.props.service = value;
   }
-  set date(value: Date) {
+  setDate(value: Date) {
     this.props.date = value;
   }
-  set status(value: Status) {
+  setStatus(value: Status) {
     this.props.status = value;
   }
-  set discount(value: number) {
+  setDiscount(value: number) {
     this.props.discount = value;
   }
-  set total(value: number) {
+  setTotal(value: number) {
     this.props.total = value;
   }
   public toString(): string {
-    return JSON.stringify(this.props);
+    return JSON.stringify({ id: this.id, ...this.props });
   }
-  public toJSON(): TSchedulingProps {
-    return this.props;
+  public toJSON() {
+    return { id: this.id, ...this.props };
   }
 }

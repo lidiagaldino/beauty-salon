@@ -2,7 +2,6 @@ import { Email } from '../value-objects/email.value-object';
 import { Phone } from '../value-objects/phone.value-object';
 
 export type TClientProps = {
-  id?: number;
   name: string;
   phone: Phone;
   login: Email;
@@ -10,6 +9,7 @@ export type TClientProps = {
 };
 
 export class Client {
+  private id: number;
   private props: TClientProps;
 
   private constructor(props: TClientProps) {
@@ -20,41 +20,41 @@ export class Client {
     return new Client(props);
   }
 
-  get id(): number {
-    return this.props.id;
+  getId(): number {
+    return this.id;
   }
 
-  get name(): string {
+  getName(): string {
     return this.props.name;
   }
-  get phone(): Phone {
+  getPhone(): Phone {
     return this.props.phone;
   }
-  get login(): Email {
+  getLogin(): Email {
     return this.props.login;
   }
-  get password(): string {
+  getPassword(): string {
     return this.props.password;
   }
-  set id(value: number) {
-    this.props.id = value;
+  setId(value: number) {
+    this.id = value;
   }
-  set name(value: string) {
+  setName(value: string) {
     this.props.name = value;
   }
-  set phone(value: Phone) {
+  setPhone(value: Phone) {
     this.props.phone = value;
   }
-  set login(value: Email) {
+  setLogin(value: Email) {
     this.props.login = value;
   }
-  set password(value: string) {
+  setPassword(value: string) {
     this.props.password = value;
   }
   public toString(): string {
-    return JSON.stringify(this.props);
+    return JSON.stringify({ id: this.id, ...this.props });
   }
-  public toJSON(): TClientProps {
-    return this.props;
+  public toJSON() {
+    return { id: this.id, ...this.props };
   }
 }

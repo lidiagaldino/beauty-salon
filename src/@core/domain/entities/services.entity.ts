@@ -1,7 +1,6 @@
 import { Category } from './category.entity';
 
 export type TServiceProps = {
-  id?: number;
   name: string;
   duration?: number;
   category: Category;
@@ -9,6 +8,7 @@ export type TServiceProps = {
 };
 
 export class Service {
+  private id: number;
   private props: TServiceProps;
   private constructor(props: TServiceProps) {
     this.props = props;
@@ -16,37 +16,37 @@ export class Service {
   public static create(props: TServiceProps): Service {
     return new Service(props);
   }
-  get id(): number {
-    return this.props.id;
+  getId(): number {
+    return this.id;
   }
-  get duration(): number {
+  getDuration(): number {
     return this.props.duration;
   }
-  get name(): string {
+  getName(): string {
     return this.props.name;
   }
-  get category(): Category {
+  getCategory(): Category {
     return this.props.category;
   }
-  get price(): number {
+  getPrice(): number {
     return this.props.price;
   }
-  set id(value: number) {
-    this.props.id = value;
+  setId(value: number) {
+    this.id = value;
   }
-  set name(value: string) {
+  setName(value: string) {
     this.props.name = value;
   }
-  set category(value: Category) {
+  setCategory(value: Category) {
     this.props.category = value;
   }
-  set price(value: number) {
+  setPrice(value: number) {
     this.props.price = value;
   }
   public toString(): string {
-    return JSON.stringify(this.props);
+    return JSON.stringify({ id: this.id, ...this.props });
   }
-  public toJSON(): TServiceProps {
-    return this.props;
+  public toJSON() {
+    return { id: this.id, ...this.props };
   }
 }

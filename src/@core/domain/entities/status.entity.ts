@@ -1,9 +1,9 @@
 export type TStatusProps = {
-  id?: number;
   name: string;
 };
 
 export class Status {
+  private id: number;
   private props: TStatusProps;
 
   private constructor(props: TStatusProps) {
@@ -14,22 +14,22 @@ export class Status {
     return new Status(props);
   }
 
-  get id(): number {
-    return this.props.id;
+  getId(): number {
+    return this.id;
   }
-  get name(): string {
+  getName(): string {
     return this.props.name;
   }
-  set id(value: number) {
-    this.props.id = value;
+  setId(value: number) {
+    this.id = value;
   }
-  set name(value: string) {
+  setName(value: string) {
     this.props.name = value;
   }
   public toString(): string {
-    return JSON.stringify(this.props);
+    return JSON.stringify({ id: this.id, ...this.props });
   }
-  public toJSON(): TStatusProps {
-    return this.props;
+  public toJSON() {
+    return { id: this.id, ...this.props };
   }
 }

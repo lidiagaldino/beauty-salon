@@ -1,11 +1,11 @@
 export type TUserProps = {
-  id?: number;
   name: string;
   login: string;
   password?: string;
 };
 
 export class User {
+  private id: number;
   private props: TUserProps;
 
   private constructor(props: TUserProps) {
@@ -16,35 +16,43 @@ export class User {
     return new User(props);
   }
 
-  get id(): number {
-    return this.props.id;
+  getId(): number {
+    return this.id;
   }
 
-  get name(): string {
+  getName(): string {
     return this.props.name;
   }
-  get login(): string {
+  getLogin(): string {
     return this.props.login;
   }
-  get password(): string {
+  getPassword(): string {
     return this.props.password;
   }
-  set id(value: number) {
-    this.props.id = value;
+  setId(value: number) {
+    this.id = value;
   }
-  set name(value: string) {
+  setName(value: string) {
     this.props.name = value;
   }
-  set login(value: string) {
+  setLogin(value: string) {
     this.props.login = value;
   }
-  set password(value: string) {
+  setPassword(value: string) {
     this.props.password = value;
   }
   public toString(): string {
-    return JSON.stringify(this.props);
+    return JSON.stringify({ id: this.id, ...this.props });
   }
-  public toJSON(): TUserProps {
-    return this.props;
+  public toJSON() {
+    return { id: this.id, ...this.props };
+  }
+
+  public toJSONWithoutPassword() {
+    return {
+      id: this.id,
+      name: this.props.name,
+      login: this.props.login,
+    };
   }
 }
