@@ -3,7 +3,8 @@ import { IUserCryptography } from '../../../domain/interfaces/user-cryptography.
 import { IUserRepository } from '../../../domain/repositories/user.repository';
 import { NotFoundException } from '../../../domain/shared/errors/not-found.exception';
 import { UnauthorizedError } from '../../../domain/shared/errors/unauthorized.exception';
-import { TInputUserDTO, TOutputLogin } from '../../dto/user.dto';
+import { TOutputLogin } from '../../dto/login.dto';
+import { TInputUserDTO, TOutputUserDTO } from '../../dto/user.dto';
 
 export class SignInUserUsecase {
   constructor(
@@ -12,7 +13,7 @@ export class SignInUserUsecase {
     private readonly passwordCryptography: IPasswordCryptography,
   ) {}
 
-  async execute(input: TInputUserDTO): Promise<TOutputLogin> {
+  async execute(input: TInputUserDTO): Promise<TOutputLogin<TOutputUserDTO>> {
     const user = await this.userRepository.findByLogin(input.login);
     if (!user) {
       throw new NotFoundException('USER_NOT_FOUND');

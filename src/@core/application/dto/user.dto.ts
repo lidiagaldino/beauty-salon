@@ -9,13 +9,3 @@ export type TOutputUserDTO = {
   name: string;
   login: string;
 };
-
-export type TInputLogin = {
-  login: string;
-  password: string;
-};
-
-export type TOutputLogin = {
-  token: string;
-  user: TOutputUserDTO;
-};
