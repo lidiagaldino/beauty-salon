@@ -7,7 +7,7 @@ Welcome to the Beauty Salon project! This project aims to create a backend for a
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)S
+- [Contributing](#contributing)
 
 ## Features
 
