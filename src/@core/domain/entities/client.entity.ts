@@ -4,7 +4,7 @@ import { Phone } from '../value-objects/phone.value-object';
 export type TClientProps = {
   name: string;
   phone: Phone;
-  login: Email;
+  login?: Email;
   password?: string;
 };
 
@@ -56,5 +56,10 @@ export class Client {
   }
   public toJSON() {
     return { id: this.id, ...this.props };
+  }
+  public toJSONWithoutPassword() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...props } = this.props;
+    return { id: this.id, ...props };
   }
 }

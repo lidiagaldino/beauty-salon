@@ -26,4 +26,12 @@ export class Email {
   static create(props: TEmailProps): Email {
     return new Email(props);
   }
+
+  public toString(): string {
+    return JSON.stringify(this.props);
+  }
+
+  public toJSON(): TEmailProps {
+    return this.props;
+  }
 }
