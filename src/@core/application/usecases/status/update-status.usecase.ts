@@ -1,4 +1,3 @@
-import { Status } from '../../../domain/entities/status.entity';
 import { IStatusRepository } from '../../../domain/repositories/status.repository';
 import { NotFoundException } from '../../../domain/shared/errors/not-found.exception';
 import { TInputStatusDTO, TOutputStatusDTO } from '../../dto/status.dto';
@@ -12,10 +11,9 @@ export class UpdateStatusUsecase {
     if (!statusExists) {
       throw new NotFoundException('STATUS_NOT_FOUND');
     }
-    const status = Status.create({ ...input });
-    status.setId(id);
+    statusExists.setName(input.name);
 
-    const updatedStatus = await this.statusRepository.update(status);
+    const updatedStatus = await this.statusRepository.update(statusExists);
 
     return updatedStatus.toJSON();
   }
