@@ -1,4 +1,5 @@
 import { Category } from '../entities/category.entity';
+import { Client } from '../entities/client.entity';
 import { Professional } from '../entities/professional.entity';
 import { Scheduling } from '../entities/scheduling.entity';
 import { Service } from '../entities/services.entity';
@@ -10,6 +11,7 @@ export interface ISchedulingRepository {
   findById(id: number): Promise<Scheduling>;
   update(scheduling: Scheduling): Promise<Scheduling>;
   delete(id: number): Promise<void>;
+  findByClient(client: Client): Promise<Scheduling[]>;
   findByProfessional(professional: Professional): Promise<Scheduling[]>;
   findByService(service: Service): Promise<Scheduling[]>;
   findByStatus(status: Status): Promise<Scheduling[]>;

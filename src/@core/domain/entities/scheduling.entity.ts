@@ -8,9 +8,9 @@ export type TSchedulingProps = {
   date: Date;
   status: Status;
   client: Client;
-  professional?: Professional;
+  professional: Professional;
   discount?: number;
-  total: number;
+  total?: number;
 };
 
 export class Scheduling {
@@ -20,6 +20,13 @@ export class Scheduling {
     this.props = props;
   }
   public static create(props: TSchedulingProps): Scheduling {
+    let discount = 0;
+    let total = props.service.getPrice();
+    if (props.discount) {
+      discount = props.discount;
+      total = total - discount;
+      props.total = total;
+    }
     return new Scheduling(props);
   }
   getId(): number {
@@ -33,6 +40,13 @@ export class Scheduling {
   }
   getStatus(): Status {
     return this.props.status;
+  }
+  getProfessional(): Professional {
+    return this.props.professional;
+  }
+
+  getClient(): Client {
+    return this.props.client;
   }
   getDiscount(): number {
     return this.props.discount;
@@ -55,9 +69,18 @@ export class Scheduling {
   setDiscount(value: number) {
     this.props.discount = value;
   }
-  setTotal(value: number) {
-    this.props.total = value;
+  setProfessional(value: Professional) {
+    this.props.professional = value;
   }
+
+  setClient(value: Client) {
+    this.props.client = value;
+  }
+
+  calculateTotal() {
+    return this.props.service.getPrice() - this.props.discount;
+  }
+
   public toString(): string {
     return JSON.stringify({ id: this.id, ...this.props });
   }
