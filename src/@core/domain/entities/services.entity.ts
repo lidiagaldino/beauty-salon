@@ -43,6 +43,10 @@ export class Service {
   setPrice(value: number) {
     this.props.price = value;
   }
+
+  setDuration(value: number) {
+    this.props.duration = value;
+  }
   public toString(): string {
     return JSON.stringify({ id: this.id, ...this.props });
   }
