@@ -1,6 +1,5 @@
 export type TCategoryProps = {
   name: string;
-  description?: string;
 };
 
 export class Category {
@@ -21,17 +20,12 @@ export class Category {
   getName(): string {
     return this.props.name;
   }
-  getDescription(): string {
-    return this.props.description;
-  }
+
   setId(value: number) {
     this.id = value;
   }
   setName(value: string) {
     this.props.name = value;
-  }
-  setDescription(value: string) {
-    this.props.description = value;
   }
 
   public toString(): string {

@@ -13,7 +13,6 @@ export class UpdateCategoryUsecase {
     if (!categoryExists) {
       throw new NotFoundException('CATEGORY_NOT_FOUND');
     }
-    categoryExists.setDescription(input.description);
     categoryExists.setName(input.name);
 
     const result = await this.categoryRepository.update(categoryExists);
