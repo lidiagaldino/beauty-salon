@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model tbl_status {
+  id             Int              @id @default(autoincrement())
+  status         String           @db.VarChar(100)
+  created_at     DateTime         @default(now())
+  updated_at     DateTime?        @updatedAt
+  tbl_scheduling tbl_scheduling[]
+}
+
+model tbl_user {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(100)
+  password   String    @db.VarChar(200)
+  login      String    @db.VarChar(256)
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+}
+
+model tbl_category {
+  id                        Int                         @id @default(autoincrement())
+  name                      String                      @db.VarChar(100)
+  created_at                DateTime                    @default(now())
+  updated_at                DateTime?                   @updatedAt
+  tbl_professional_category tbl_professional_category[]
+  tbl_service               tbl_service[]
+}
+
+model tbl_professional {
+  id                        Int                         @id @default(autoincrement())
+  name                      String                      @db.VarChar(100)
+  phone                     String                      @db.VarChar(25)
+  email                     String                      @db.VarChar(256)
+  bio                       String                      @db.Text
+  created_at                DateTime                    @default(now())
+  updated_at                DateTime?                   @updatedAt
+  tbl_professional_category tbl_professional_category[]
+  tbl_scheduling            tbl_scheduling[]
+}
+
+model tbl_professional_category {
+  id              Int              @id @default(autoincrement())
+  professional_id Int
+  category_id     Int
+  professional    tbl_professional @relation(fields: [professional_id], references: [id])
+  category        tbl_category     @relation(fields: [category_id], references: [id])
+}
+
+model tbl_service {
+  id             Int              @id @default(autoincrement())
+  name           String           @db.VarChar(100)
+  price          Float            @db.Float
+  duration       Float            @db.Float
+  category_id    Int
+  category       tbl_category     @relation(fields: [category_id], references: [id])
+  created_at     DateTime         @default(now())
+  updated_at     DateTime?        @updatedAt
+  tbl_scheduling tbl_scheduling[]
+}
+
+model tbl_client {
+  id             Int              @id @default(autoincrement())
+  name           String           @db.VarChar(100)
+  phone          String           @db.VarChar(25)
+  login          String           @db.VarChar(256)
+  password       String           @db.VarChar(200)
+  created_at     DateTime         @default(now())
+  updated_at     DateTime?        @updatedAt
+  tbl_scheduling tbl_scheduling[]
+}
+
+model tbl_scheduling {
+  id              Int              @id @default(autoincrement())
+  client_id       Int
+  professional_id Int
+  service_id      Int
+  status_id       Int
+  discount        Float
+  total           Float
+  date            DateTime
+  created_at      DateTime         @default(now())
+  updated_at      DateTime?        @updatedAt
+  client          tbl_client       @relation(fields: [client_id], references: [id])
+  professional    tbl_professional @relation(fields: [professional_id], references: [id])
+  service         tbl_service      @relation(fields: [service_id], references: [id])
+  status          tbl_status       @relation(fields: [status_id], references: [id])
+}
