@@ -1,4 +1,3 @@
-import { User } from '../../../domain/entities/user.entity';
 import { IUserRepository } from '../../../domain/repositories/user.repository';
 import { NotFoundException } from '../../../domain/shared/errors/not-found.exception';
 import { TInputUserDTO, TOutputUserDTO } from '../../dto/user.dto';
@@ -8,19 +7,16 @@ export class UpdateUserUsecase {
 
   async execute(
     id: number,
-    input: Partial<Omit<TInputUserDTO, 'password'>>,
+    input: Pick<TInputUserDTO, 'name'>,
   ): Promise<TOutputUserDTO> {
     const userExists = await this.userRepository.findById(id);
 
     if (!userExists) {
       throw new NotFoundException('USER_NOT_FOUND');
     }
+    userExists.setName(input.name);
 
-    const updatedUser = { ...input, ...userExists.toJSONWithoutPassword() };
-    const user = User.create(updatedUser);
-    user.setId(id);
-
-    const userUpdated = await this.userRepository.update(user);
+    const userUpdated = await this.userRepository.update(userExists);
 
     return userUpdated.toJSONWithoutPassword();
   }
