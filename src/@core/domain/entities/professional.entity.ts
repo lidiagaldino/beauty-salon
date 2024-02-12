@@ -7,6 +7,7 @@ export type TProfessionalProps = {
   phone: Phone;
   email: Email;
   categories: Category[];
+  bio: string;
 };
 
 export class Professional {
@@ -25,6 +26,10 @@ export class Professional {
     return this.id;
   }
 
+  getBio(): string {
+    return this.props.bio;
+  }
+
   getName(): string {
     return this.props.name;
   }
@@ -39,6 +44,9 @@ export class Professional {
   }
   setId(value: number) {
     this.id = value;
+  }
+  setBio(value: string) {
+    this.props.bio = value;
   }
   setName(value: string) {
     this.props.name = value;
