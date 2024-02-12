@@ -22,7 +22,7 @@ model tbl_user {
   id         Int       @id @default(autoincrement())
   name       String    @db.VarChar(100)
   password   String    @db.VarChar(200)
-  login      String    @db.VarChar(256)
+  login      String    @unique @db.VarChar(256)
   created_at DateTime  @default(now())
   updated_at DateTime? @updatedAt
 }
@@ -72,7 +72,7 @@ model tbl_client {
   id             Int              @id @default(autoincrement())
   name           String           @db.VarChar(100)
   phone          String           @db.VarChar(25)
-  login          String           @db.VarChar(256)
+  login          String           @unique @db.VarChar(256)
   password       String           @db.VarChar(200)
   created_at     DateTime         @default(now())
   updated_at     DateTime?        @updatedAt
