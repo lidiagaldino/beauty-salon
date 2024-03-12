@@ -15,11 +15,11 @@ export class Phone {
     return new Phone(props);
   }
   public static createFromString(phone: string): Phone {
-    const [ddd, ddi, number] = phone.split('');
+    const [ddi, ddd, number] = phone.split(' ');
     return Phone.create({
-      ddd: ddd,
-      ddi: ddi,
-      number: number,
+      ddd: ddd.substring(1, ddd.length),
+      ddi,
+      number,
     });
   }
 
