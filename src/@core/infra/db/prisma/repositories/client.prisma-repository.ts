@@ -24,11 +24,7 @@ export class ClientPrismaRepository implements IClientRepository {
       const client = Client.create({
         name: item.name,
         login: Email.create({ email: item.login }),
-        phone: Phone.create({
-          ddd: item.phone,
-          ddi: item.phone,
-          number: item.phone,
-        }),
+        phone: Phone.createFromString(item.phone),
       });
       client.setId(item.id);
       return client;
@@ -43,11 +39,7 @@ export class ClientPrismaRepository implements IClientRepository {
     const client = Client.create({
       name: result.name,
       login: Email.create({ email: result.login }),
-      phone: Phone.create({
-        ddd: result.phone,
-        ddi: result.phone,
-        number: result.phone,
-      }),
+      phone: Phone.createFromString(result.phone),
     });
     client.setId(result.id);
     return client;
@@ -78,11 +70,7 @@ export class ClientPrismaRepository implements IClientRepository {
     const client = Client.create({
       name: result.name,
       login: Email.create({ email: result.login }),
-      phone: Phone.create({
-        ddd: result.phone,
-        ddi: result.phone,
-        number: result.phone,
-      }),
+      phone: Phone.createFromString(result.phone),
     });
     client.setId(result.id);
     return client;

@@ -45,11 +45,7 @@ export class ProfessionalPrismaRepository implements IProfessionalRepository {
       const professional = Professional.create({
         bio: item.bio,
         name: item.name,
-        phone: Phone.create({
-          number: item.phone,
-          ddd: item.phone,
-          ddi: item.phone,
-        }),
+        phone: Phone.createFromString(item.phone),
         email: Email.create({
           email: item.email,
         }),
@@ -74,11 +70,7 @@ export class ProfessionalPrismaRepository implements IProfessionalRepository {
       }),
       email: Email.create({ email: result.email }),
       name: result.name,
-      phone: Phone.create({
-        ddd: result.phone,
-        ddi: result.phone,
-        number: result.phone,
-      }),
+      phone: Phone.createFromString(result.phone),
     });
     return professional;
   }

@@ -199,11 +199,7 @@ export class SchedulingPrismaRepository implements ISchedulingRepository {
     status.setId(input.status.id);
     const client = Client.create({
       name: input.client.name,
-      phone: Phone.create({
-        ddd: input.client.phone,
-        ddi: input.client.phone,
-        number: input.client.phone,
-      }),
+      phone: Phone.createFromString(input.client.phone),
       login: Email.create({ email: input.client.login }),
     });
     client.setId(input.client.id);
@@ -216,11 +212,7 @@ export class SchedulingPrismaRepository implements ISchedulingRepository {
         return category;
       }),
       email: Email.create({ email: input.professional.email }),
-      phone: Phone.create({
-        ddd: input.professional.phone,
-        ddi: input.professional.phone,
-        number: input.professional.phone,
-      }),
+      phone: Phone.createFromString(input.professional.phone),
     });
     professional.setId(input.professional.id);
     const scheduling = Scheduling.create({
