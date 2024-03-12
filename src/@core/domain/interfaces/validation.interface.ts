@@ -1,3 +1,8 @@
-export interface Validation {
-  validate(schema: any, props: any): boolean;
+export interface IValidation {
+  validate(schema: any, props: any): TValidationOutput;
 }
+
+export type TValidationOutput = {
+  isValid: boolean;
+  errorsResult?: string;
+};
