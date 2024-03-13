@@ -7,6 +7,9 @@ import { UpdateCategoryUsecase } from '../../@core/application/usecases/category
 import { DeleteCategoryUsecase } from '../../@core/application/usecases/category/delete-category.usecase';
 import { FindAllCategoryUsecase } from '../../@core/application/usecases/category/find-all-category.usecase';
 import { FindCategoryByIdUsecase } from '../../@core/application/usecases/category/find-category-by-id.usecase';
+import { YupAdapter } from '../../@core/infra/validation/yup/yup.adapter';
+import { IValidation } from '../../@core/domain/interfaces/validation.interface';
+import { categorySchema } from '../../@core/infra/validation/yup/schemas/category.schema';
 
 @Module({
   controllers: [CategoriesController],
@@ -16,16 +19,34 @@ import { FindCategoryByIdUsecase } from '../../@core/application/usecases/catego
       useClass: CategoryPrismaRepository,
     },
     {
+      provide: YupAdapter,
+      useClass: YupAdapter,
+    },
+    {
       provide: CreateCategoryUsecase,
-      useFactory: (categoryRepository: ICategoryRepository) =>
-        new CreateCategoryUsecase(categoryRepository),
-      inject: [CategoryPrismaRepository],
+      useFactory: (
+        categoryRepository: ICategoryRepository,
+        validator: IValidation,
+      ) =>
+        new CreateCategoryUsecase(
+          categoryRepository,
+          validator,
+          categorySchema,
+        ),
+      inject: [CategoryPrismaRepository, YupAdapter],
     },
     {
       provide: UpdateCategoryUsecase,
-      useFactory: (categoryRepository: ICategoryRepository) =>
-        new UpdateCategoryUsecase(categoryRepository),
-      inject: [CategoryPrismaRepository],
+      useFactory: (
+        categoryRepository: ICategoryRepository,
+        validator: IValidation,
+      ) =>
+        new UpdateCategoryUsecase(
+          categoryRepository,
+          validator,
+          categorySchema,
+        ),
+      inject: [CategoryPrismaRepository, YupAdapter],
     },
     {
       provide: DeleteCategoryUsecase,
