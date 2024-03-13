@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   Put,
+  HttpCode,
 } from '@nestjs/common';
 import { TInputCategoryDTO } from '../../@core/application/dto/category.dto';
 import { CreateCategoryUsecase } from '../../@core/application/usecases/category/create-category.usecase';
@@ -45,6 +46,7 @@ export class CategoriesController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   remove(@Param('id') id: string) {
     return this.deleteUsecase.execute(+id);
   }
