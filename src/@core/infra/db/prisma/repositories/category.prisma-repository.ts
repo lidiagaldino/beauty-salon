@@ -20,12 +20,13 @@ export class CategoryPrismaRepository implements ICategoryRepository {
       category.setId(item.id);
       return category;
     });
-    return categories;
+    return categories.length > 0 ? categories : null;
   }
   async findById(id: number): Promise<Category> {
     const result = await prisma.tbl_category.findUnique({
       where: { id },
     });
+    if (!result) return null;
     const category = Category.create({ name: result.name });
     category.setId(result.id);
     return category;
