@@ -1,7 +1,7 @@
 import { IClientRepository } from '../../../domain/repositories/client.repository';
 import { NotFoundException } from '../../../domain/shared/errors/not-found.exception';
 import { Phone } from '../../../domain/value-objects/phone.value-object';
-import { TInputClientDTO, TOutputClientDTO } from '../../dto/client.dto';
+import { TInputUpdateClientDTO, TOutputClientDTO } from '../../dto/client.dto';
 import { mapOutput } from './util';
 
 export class UpdateClientUsecase {
@@ -9,7 +9,7 @@ export class UpdateClientUsecase {
 
   async execute(
     id: number,
-    input: Pick<TInputClientDTO, 'name' | 'phone'>,
+    input: TInputUpdateClientDTO,
   ): Promise<TOutputClientDTO> {
     const clientExists = await this.clientRepository.findById(id);
     if (!clientExists) {

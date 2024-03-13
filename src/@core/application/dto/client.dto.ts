@@ -8,6 +8,8 @@ export type TInputClientDTO = {
   password: string;
 };
 
+export type TInputUpdateClientDTO = Pick<TInputClientDTO, 'name' | 'phone'>;
+
 export type TOutputClientDTO = {
   id: number;
   name: string;
