@@ -4,7 +4,7 @@ import { Phone } from '../value-objects/phone.value-object';
 export type TClientProps = {
   name: string;
   phone: Phone;
-  login?: Email;
+  login: Email;
   password?: string;
 };
 
