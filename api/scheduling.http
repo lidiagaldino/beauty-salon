@@ -30,4 +30,10 @@ Content-Type: application/json
 GET http://localhost:3000/schedules
 
 ###
+GET http://localhost:3000/schedules/client/3
+
+###
+GET http://localhost:3000/schedules/professional/2
+
+###
 DELETE http://localhost:3000/schedules/1
