@@ -7,6 +7,9 @@ import { FindCategoryByIdUsecase } from '../../@core/application/usecases/catego
 import { UpdateCategoryUsecase } from '../../@core/application/usecases/category/update-category.usecase';
 import { ICategoryRepository } from '../../@core/domain/repositories/category.repository';
 import { CategoryPrismaRepository } from '../../@core/infra/db/prisma/repositories/category.prisma-repository';
+import { IValidation } from '../../@core/domain/interfaces/validation.interface';
+import { categorySchema } from '../../@core/infra/validation/yup/schemas/category.schema';
+import { YupAdapter } from '../../@core/infra/validation/yup/yup.adapter';
 
 describe('CategoriesController', () => {
   let controller: CategoriesController;
@@ -20,16 +23,34 @@ describe('CategoriesController', () => {
           useClass: CategoryPrismaRepository,
         },
         {
+          provide: YupAdapter,
+          useClass: YupAdapter,
+        },
+        {
           provide: CreateCategoryUsecase,
-          useFactory: (categoryRepository: ICategoryRepository) =>
-            new CreateCategoryUsecase(categoryRepository),
-          inject: [CategoryPrismaRepository],
+          useFactory: (
+            categoryRepository: ICategoryRepository,
+            validator: IValidation,
+          ) =>
+            new CreateCategoryUsecase(
+              categoryRepository,
+              validator,
+              categorySchema,
+            ),
+          inject: [CategoryPrismaRepository, YupAdapter],
         },
         {
           provide: UpdateCategoryUsecase,
-          useFactory: (categoryRepository: ICategoryRepository) =>
-            new UpdateCategoryUsecase(categoryRepository),
-          inject: [CategoryPrismaRepository],
+          useFactory: (
+            categoryRepository: ICategoryRepository,
+            validator: IValidation,
+          ) =>
+            new UpdateCategoryUsecase(
+              categoryRepository,
+              validator,
+              categorySchema,
+            ),
+          inject: [CategoryPrismaRepository, YupAdapter],
         },
         {
           provide: DeleteCategoryUsecase,
