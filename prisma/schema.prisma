@@ -52,8 +52,8 @@ model tbl_professional_category {
   id              Int              @id @default(autoincrement())
   professional_id Int
   category_id     Int
-  professional    tbl_professional @relation(fields: [professional_id], references: [id])
-  category        tbl_category     @relation(fields: [category_id], references: [id])
+  professional    tbl_professional @relation(fields: [professional_id], references: [id], onDelete: Cascade)
+  category        tbl_category     @relation(fields: [category_id], references: [id], onDelete: Cascade)
 }
 
 model tbl_service {
@@ -62,7 +62,7 @@ model tbl_service {
   price          Float            @db.Float
   duration       Float            @db.Float
   category_id    Int
-  category       tbl_category     @relation(fields: [category_id], references: [id])
+  category       tbl_category     @relation(fields: [category_id], references: [id], onDelete: Cascade)
   created_at     DateTime         @default(now())
   updated_at     DateTime?        @updatedAt
   tbl_scheduling tbl_scheduling[]
@@ -90,8 +90,8 @@ model tbl_scheduling {
   date            DateTime
   created_at      DateTime         @default(now())
   updated_at      DateTime?        @updatedAt
-  client          tbl_client       @relation(fields: [client_id], references: [id])
-  professional    tbl_professional @relation(fields: [professional_id], references: [id])
-  service         tbl_service      @relation(fields: [service_id], references: [id])
-  status          tbl_status       @relation(fields: [status_id], references: [id])
+  client          tbl_client       @relation(fields: [client_id], references: [id], onDelete: Cascade)
+  professional    tbl_professional @relation(fields: [professional_id], references: [id], onDelete: Cascade)
+  service         tbl_service      @relation(fields: [service_id], references: [id], onDelete: Cascade)
+  status          tbl_status       @relation(fields: [status_id], references: [id], onDelete: Cascade)
 }
