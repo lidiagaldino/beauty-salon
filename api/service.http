@@ -1,0 +1,29 @@
+POST http://localhost:3000/services
+Content-Type: application/json
+
+{
+  "name": "Service test",
+  "price": 10,
+  "duration": 60,
+  "category_id": 1
+}
+
+###
+PUT http://localhost:3000/services/7
+Content-Type: application/json
+
+{
+  "name": "Service update",
+  "price": 10,
+  "duration": 60,
+  "category_id": 2
+}
+
+###
+GET http://localhost:3000/services
+
+###
+GET http://localhost:3000/services/7
+
+###
+DELETE http://localhost:3000/services/7
