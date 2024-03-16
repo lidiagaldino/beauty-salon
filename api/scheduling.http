@@ -1,0 +1,33 @@
+POST http://localhost:3000/schedules
+Content-Type: application/json
+
+ {
+  "date": "2024-03-16T17:21:26.173Z",
+  "status_id": 1,
+  "client_id": 3,
+  "professional_id": 2,
+  "discount": 0,  
+  "service_id": 1
+ }
+
+###
+GET http://localhost:3000/schedules/1
+
+###
+PUT http://localhost:3000/schedules/1
+Content-Type: application/json
+
+ {
+  "date": "2024-03-17T17:21:26.173Z",
+  "status_id": 1,
+  "client_id": 3,
+  "professional_id": 2,
+  "discount": 0,  
+  "service_id": 1
+ }
+
+###
+GET http://localhost:3000/schedules
+
+###
+DELETE http://localhost:3000/schedules/1
