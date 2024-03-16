@@ -1,0 +1,23 @@
+POST http://localhost:3000/status
+Content-Type: application/json
+
+{
+  "name": "Teste"
+}
+
+###
+PUT http://localhost:3000/status/5
+Content-Type: application/json
+
+{
+  "name": "Teste atualizado"
+}
+
+###
+DELETE http://localhost:3000/status/5
+
+###
+GET http://localhost:3000/status
+
+###
+GET http://localhost:3000/status/1
