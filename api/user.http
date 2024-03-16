@@ -1,0 +1,28 @@
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Lídia",
+  "login": "lidia@gmail.com",
+  "password": "123456"
+}
+
+###
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+  "login": "lidia@gmail.com",
+  "password": "123456"
+} 
+
+###
+PUT http://localhost:3000/users/1
+Content-Type: application/json
+
+{
+  "name": "Lídia atualizada"
+}
+
+###
+DELETE http://localhost:3000/users/1
