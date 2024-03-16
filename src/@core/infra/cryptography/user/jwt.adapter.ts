@@ -1,6 +1,6 @@
 import { IUserCryptography } from '../../../domain/interfaces/user-cryptography.interface';
 import { IUserPayload } from '../../../domain/interfaces/user-payload.interface';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 
 export class JwtAdapter implements IUserCryptography {
   constructor(
