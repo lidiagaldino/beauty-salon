@@ -1,0 +1,41 @@
+POST http://localhost:3000/professionals
+Content-Type: application/json
+
+{
+  "name": "Maria Luiza",
+  "email": {"email": "malu@gmail.com"},
+  "phone": {
+    "ddd": "11",
+    "ddi": "+55",
+    "number": "982903305"
+  },
+  "categories_id": [1, 3],
+  "bio": "Muito menininha"
+}
+
+###
+PUT http://localhost:3000/professionals/1
+Content-Type: application/json
+
+{
+  "name": "Maria Luiza",
+  "email": {"email": "malu@gmail.com"},
+  "phone": {
+    "ddd": "11",
+    "ddi": "+55",
+    "number": "982903305"
+  },
+  "categories_id": [1, 3],
+  "bio": "Muito menininha"
+}
+
+
+###
+GET http://localhost:3000/professionals
+
+###
+GET http://localhost:3000/professionals/1
+
+###
+DELETE http://localhost:3000/professionals/1
+
