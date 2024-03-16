@@ -2,6 +2,7 @@ import { prisma } from '..';
 import { Category } from '../../../../domain/entities/category.entity';
 import { Professional } from '../../../../domain/entities/professional.entity';
 import { IProfessionalRepository } from '../../../../domain/repositories/professional.repository';
+import { NotFoundException } from '../../../../domain/shared/errors/not-found.exception';
 import { Email } from '../../../../domain/value-objects/email.value-object';
 import { Phone } from '../../../../domain/value-objects/phone.value-object';
 
@@ -12,7 +13,7 @@ export class ProfessionalPrismaRepository implements IProfessionalRepository {
         bio: professional.getBio(),
         name: professional.getName(),
         phone: professional.getPhone().toStringFormat(),
-        email: professional.getEmail().toString(),
+        email: professional.getEmail().email,
         tbl_professional_category: {
           createMany: {
             data: professional
@@ -34,6 +35,8 @@ export class ProfessionalPrismaRepository implements IProfessionalRepository {
         },
       },
     });
+    if (result.length == 0)
+      throw new NotFoundException('PROFESSIONAL_NOT_FOUND');
     const professionals = result.map((item) => {
       const categories = item.tbl_professional_category.map((c) => {
         const newCategory = Category.create({
@@ -61,6 +64,7 @@ export class ProfessionalPrismaRepository implements IProfessionalRepository {
       where: { id },
       include: { tbl_professional_category: { include: { category: true } } },
     });
+    if (!result) throw new NotFoundException('PROFESSIONAL_NOT_FOUND');
     const professional = Professional.create({
       bio: result.bio,
       categories: result.tbl_professional_category.map((c) => {
@@ -72,6 +76,7 @@ export class ProfessionalPrismaRepository implements IProfessionalRepository {
       name: result.name,
       phone: Phone.createFromString(result.phone),
     });
+    professional.setId(result.id);
     return professional;
   }
   async update(professional: Professional): Promise<Professional> {
