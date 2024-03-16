@@ -25,8 +25,8 @@ export class Scheduling {
     if (props.discount) {
       discount = props.discount;
       total = total - discount;
-      props.total = total;
     }
+    props.total = total;
     return new Scheduling(props);
   }
   getId(): number {
