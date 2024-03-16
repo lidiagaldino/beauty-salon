@@ -11,7 +11,7 @@ export class ProfessionalPrismaRepository implements IProfessionalRepository {
       data: {
         bio: professional.getBio(),
         name: professional.getName(),
-        phone: professional.getPhone().toString(),
+        phone: professional.getPhone().toStringFormat(),
         email: professional.getEmail().toString(),
         tbl_professional_category: {
           createMany: {
