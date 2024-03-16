@@ -2,7 +2,7 @@ import { IValidation } from '../../../domain/interfaces/validation.interface';
 import { IUserRepository } from '../../../domain/repositories/user.repository';
 import { BadRequestException } from '../../../domain/shared/errors/bad-request.exception';
 import { NotFoundException } from '../../../domain/shared/errors/not-found.exception';
-import { TInputUserDTO, TOutputUserDTO } from '../../dto/user.dto';
+import { TInputUpdateUserDTO, TOutputUserDTO } from '../../dto/user.dto';
 
 export class UpdateUserUsecase {
   constructor(
@@ -13,7 +13,7 @@ export class UpdateUserUsecase {
 
   async execute(
     id: number,
-    input: Pick<TInputUserDTO, 'name'>,
+    input: TInputUpdateUserDTO,
   ): Promise<TOutputUserDTO> {
     const validated = this.validator.validate(this.schema, input);
     if (!validated.isValid) {

@@ -4,6 +4,8 @@ export type TInputUserDTO = {
   password?: string;
 };
 
+export type TInputUpdateUserDTO = Pick<TInputUserDTO, 'name'>;
+
 export type TOutputUserDTO = {
   id: number;
   name: string;
