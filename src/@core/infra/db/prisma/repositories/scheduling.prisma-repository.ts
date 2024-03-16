@@ -6,6 +6,7 @@ import { Scheduling } from '../../../../domain/entities/scheduling.entity';
 import { Service } from '../../../../domain/entities/services.entity';
 import { Status } from '../../../../domain/entities/status.entity';
 import { ISchedulingRepository } from '../../../../domain/repositories/scheduling.repository';
+import { NotFoundException } from '../../../../domain/shared/errors/not-found.exception';
 import { Email } from '../../../../domain/value-objects/email.value-object';
 import { Phone } from '../../../../domain/value-objects/phone.value-object';
 
@@ -38,6 +39,7 @@ export class SchedulingPrismaRepository implements ISchedulingRepository {
         },
       },
     });
+    if (result.length == 0) throw new NotFoundException('SCHEDULE_NOT_FOUND');
     const schedules = result.map(this.mapOutput);
     return schedules;
   }
@@ -55,6 +57,7 @@ export class SchedulingPrismaRepository implements ISchedulingRepository {
         },
       },
     });
+    if (!result) throw new NotFoundException('SCHEDULE_NOT_FOUND');
     const scheduling = this.mapOutput(result);
     return scheduling;
   }
@@ -94,6 +97,7 @@ export class SchedulingPrismaRepository implements ISchedulingRepository {
         },
       },
     });
+    if (result.length == 0) throw new NotFoundException('SCHEDULE_NOT_FOUND');
     const schedules = result.map(this.mapOutput);
     return schedules;
   }
@@ -111,6 +115,7 @@ export class SchedulingPrismaRepository implements ISchedulingRepository {
         },
       },
     });
+    if (result.length == 0) throw new NotFoundException('SCHEDULE_NOT_FOUND');
     const schedules = result.map(this.mapOutput);
     return schedules;
   }
@@ -128,6 +133,7 @@ export class SchedulingPrismaRepository implements ISchedulingRepository {
         },
       },
     });
+    if (result.length == 0) throw new NotFoundException('SCHEDULE_NOT_FOUND');
     const schedules = result.map(this.mapOutput);
     return schedules;
   }
@@ -145,6 +151,7 @@ export class SchedulingPrismaRepository implements ISchedulingRepository {
         },
       },
     });
+    if (result.length == 0) throw new NotFoundException('SCHEDULE_NOT_FOUND');
     const schedules = result.map(this.mapOutput);
     return schedules;
   }
@@ -162,6 +169,7 @@ export class SchedulingPrismaRepository implements ISchedulingRepository {
         },
       },
     });
+    if (result.length == 0) throw new NotFoundException('SCHEDULE_NOT_FOUND');
     const schedules = result.map(this.mapOutput);
     return schedules;
   }
@@ -179,6 +187,7 @@ export class SchedulingPrismaRepository implements ISchedulingRepository {
         },
       },
     });
+    if (result.length == 0) throw new NotFoundException('SCHEDULE_NOT_FOUND');
     const schedules = result.map(this.mapOutput);
     return schedules;
   }
