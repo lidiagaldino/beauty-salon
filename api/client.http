@@ -1,0 +1,35 @@
+POST http://localhost:3000/clients
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "login": {"email": "john.doe@gmail.com"},
+  "password": "12345678",
+  "phone": {
+    "ddd": "11",
+    "ddi": "+55",
+    "number": "951869683"
+  }
+}
+
+###
+GET http://localhost:3000/clients
+
+###
+DELETE http://localhost:3000/clients/1
+
+###
+PUT http://localhost:3000/clients/3
+Content-Type: application/json
+
+{
+  "name": "John Doe atualizado",
+  "phone": {
+    "ddd": "11",
+    "ddi": "+55",
+    "number": "951869684"
+  }
+}
+
+###
+GET http://localhost:3000/clients/3
