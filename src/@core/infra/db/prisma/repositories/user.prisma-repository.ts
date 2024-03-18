@@ -11,41 +11,23 @@ export class UserPrismaRepository implements IUserRepository {
         password: user.getPassword(),
       },
     });
-    const createdUser = User.create({
-      name: result.name,
-      login: result.login,
-      password: result.password,
-    });
-    createdUser.setId(result.id);
-    return createdUser;
+
+    user.setId(result.id);
+    return user;
   }
   async findAll(): Promise<User[]> {
     const result = await prisma.tbl_user.findMany();
-    const users = result.map((item) => {
-      const user = User.create({
-        name: item.name,
-        login: item.login,
-        password: item.password,
-      });
-      user.setId(item.id);
-      return user;
-    });
+    const users = result.map(this.mapOutput);
     return users;
   }
   async findById(id: number): Promise<User> {
     const result = await prisma.tbl_user.findUnique({
       where: { id },
     });
-    const user = User.create({
-      name: result.name,
-      login: result.login,
-      password: result.password,
-    });
-    user.setId(result.id);
-    return user;
+    return this.mapOutput(result);
   }
   async update(user: User): Promise<User> {
-    const result = await prisma.tbl_user.update({
+    await prisma.tbl_user.update({
       where: { id: user.getId() },
       data: {
         name: user.getName(),
@@ -53,13 +35,7 @@ export class UserPrismaRepository implements IUserRepository {
         password: user.getPassword(),
       },
     });
-    const updatedUser = User.create({
-      name: result.name,
-      login: result.login,
-      password: result.password,
-    });
-    updatedUser.setId(result.id);
-    return updatedUser;
+    return user;
   }
   async delete(id: number): Promise<void> {
     await prisma.tbl_user.delete({
@@ -71,12 +47,16 @@ export class UserPrismaRepository implements IUserRepository {
     const result = await prisma.tbl_user.findUnique({
       where: { login },
     });
+    return this.mapOutput(result);
+  }
+
+  private mapOutput(input: {id: number, name: string, login: string, password: string}): User {
     const user = User.create({
-      name: result.name,
-      login: result.login,
-      password: result.password,
+      name: input.name,
+      login: input.login,
+      password: input.password,
     });
-    user.setId(result.id);
+    user.setId(input.id);
     return user;
   }
 }
