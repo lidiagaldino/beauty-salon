@@ -15,21 +15,14 @@ export class StatusPrismaRepository implements IStatusRepository {
   }
   async findAll(): Promise<Status[]> {
     const result = await prisma.tbl_status.findMany();
-    const status = result.map((item) => {
-      const status = Status.create({ name: item.status });
-      status.setId(item.id);
-      return status;
-    });
-
+    const status = result.map(this.mapOutput);
     return status;
   }
   async findById(id: number): Promise<Status> {
     const result = await prisma.tbl_status.findUnique({
       where: { id },
     });
-    const status = Status.create({ name: result.status });
-    status.setId(result.id);
-    return status;
+    return this.mapOutput(result);
   }
   async update(status: Status): Promise<Status> {
     await prisma.tbl_status.update({
@@ -44,5 +37,11 @@ export class StatusPrismaRepository implements IStatusRepository {
       where: { id },
     });
     return;
+  }
+
+  private mapOutput(input: {id: number, name: string}): Status {
+    const status = Status.create({ name: input.name });
+    status.setId(input.id);
+    return status;
   }
 }
