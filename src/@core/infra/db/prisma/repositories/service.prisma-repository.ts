@@ -20,20 +20,7 @@ export class ServicePrismaRepository implements IServiceRepository {
     const result = await prisma.tbl_service.findMany({
       include: { category: true },
     });
-    const services = result.map((item) => {
-      const category = Category.create({
-        name: item.category.name,
-      });
-      category.setId(item.category.id);
-      const service = Service.create({
-        name: item.name,
-        price: item.price,
-        duration: item.duration,
-        category,
-      });
-      service.setId(item.id);
-      return service;
-    });
+    const services = result.map(this.mapOutput);
     return services;
   }
   async findById(id: number): Promise<Service> {
@@ -41,21 +28,10 @@ export class ServicePrismaRepository implements IServiceRepository {
       where: { id },
       include: { category: true },
     });
-    const category = Category.create({
-      name: result.category.name,
-    });
-    category.setId(result.category.id);
-    const service = Service.create({
-      name: result.name,
-      price: result.price,
-      duration: result.duration,
-      category,
-    });
-    service.setId(result.id);
-    return service;
+    return this.mapOutput(result);
   }
   async update(service: Service): Promise<Service> {
-    const result = await prisma.tbl_service.update({
+    await prisma.tbl_service.update({
       where: { id: service.getId() },
       data: {
         name: service.getName(),
@@ -64,7 +40,6 @@ export class ServicePrismaRepository implements IServiceRepository {
         category: { connect: { id: service.getCategory().getId() } },
       },
     });
-    service.setId(result.id);
     return service;
   }
   async delete(id: number): Promise<void> {
@@ -78,20 +53,20 @@ export class ServicePrismaRepository implements IServiceRepository {
       where: { category: { id: category.getId() } },
       include: { category: true },
     });
-    const services = result.map((item) => {
-      const category = Category.create({
-        name: item.category.name,
-      });
-      category.setId(item.category.id);
-      const service = Service.create({
-        name: item.name,
-        price: item.price,
-        duration: item.duration,
-        category,
-      });
-      service.setId(item.id);
-      return service;
-    });
+    const services = result.map(this.mapOutput);
     return services;
+  }
+
+  private mapOutput(input): Service {
+    const category = Category.create({ name: input.category.name });
+    category.setId(input.category.id);
+    const service = Service.create({
+      name: input.name,
+      price: input.price,
+      duration: input.duration,
+      category,
+    });
+    service.setId(input.id);
+    return service;
   }
 }
