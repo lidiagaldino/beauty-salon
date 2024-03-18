@@ -37,27 +37,8 @@ export class ProfessionalPrismaRepository implements IProfessionalRepository {
     });
     if (result.length == 0)
       throw new NotFoundException('PROFESSIONAL_NOT_FOUND');
-    const professionals = result.map((item) => {
-      const categories = item.tbl_professional_category.map((c) => {
-        const newCategory = Category.create({
-          name: c.category.name,
-        });
-        newCategory.setId(c.category.id);
-        return newCategory;
-      });
-      const professional = Professional.create({
-        bio: item.bio,
-        name: item.name,
-        phone: Phone.createFromString(item.phone),
-        email: Email.create({
-          email: item.email,
-        }),
-        categories: categories,
-      });
-      professional.setId(item.id);
-      return professional;
-    });
-    return professionals;
+
+    return result.map(this.mapOutput);
   }
   async findById(id: number): Promise<Professional> {
     const result = await prisma.tbl_professional.findUnique({
@@ -65,19 +46,7 @@ export class ProfessionalPrismaRepository implements IProfessionalRepository {
       include: { tbl_professional_category: { include: { category: true } } },
     });
     if (!result) throw new NotFoundException('PROFESSIONAL_NOT_FOUND');
-    const professional = Professional.create({
-      bio: result.bio,
-      categories: result.tbl_professional_category.map((c) => {
-        const category = Category.create({ name: c.category.name });
-        category.setId(c.category.id);
-        return category;
-      }),
-      email: Email.create({ email: result.email }),
-      name: result.name,
-      phone: Phone.createFromString(result.phone),
-    });
-    professional.setId(result.id);
-    return professional;
+    return this.mapOutput(result)
   }
   async update(professional: Professional): Promise<Professional> {
     const professionalCategories =
@@ -111,5 +80,30 @@ export class ProfessionalPrismaRepository implements IProfessionalRepository {
   async delete(id: number): Promise<void> {
     await prisma.tbl_professional.delete({ where: { id } });
     return;
+  }
+
+  private mapOutput(input: 
+    {
+      id: number,
+      bio: string,
+      email: string,
+      phone: string,
+      name: string,
+      tbl_professional_category: {category: {name: string, id: number}}[]
+    }
+    ): Professional {
+      const professional = Professional.create({
+        bio: input.bio,
+        categories: input.tbl_professional_category.map((c) => {
+          const category = Category.create({ name: c.category.name });
+          category.setId(c.category.id);
+          return category;
+        }),
+        email: Email.create({ email: input.email }),
+        name: input.name,
+        phone: Phone.createFromString(input.phone),
+      });
+    professional.setId(input.id);
+    return professional
   }
 }
