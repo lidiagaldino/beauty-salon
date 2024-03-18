@@ -9,9 +9,9 @@ export class StatusPrismaRepository implements IStatusRepository {
         status: status.getName(),
       },
     });
-    const createdStatus = Status.create({ name: result.status });
-    createdStatus.setId(result.id);
-    return createdStatus;
+
+    status.setId(result.id);
+    return status;
   }
   async findAll(): Promise<Status[]> {
     const result = await prisma.tbl_status.findMany();
@@ -32,13 +32,12 @@ export class StatusPrismaRepository implements IStatusRepository {
     return status;
   }
   async update(status: Status): Promise<Status> {
-    const result = await prisma.tbl_status.update({
+    await prisma.tbl_status.update({
       where: { id: status.getId() },
       data: { status: status.getName() },
     });
-    const updatedStatus = Status.create({ name: result.status });
-    updatedStatus.setId(result.id);
-    return updatedStatus;
+
+    return status;
   }
   async delete(id: number): Promise<void> {
     await prisma.tbl_status.delete({
