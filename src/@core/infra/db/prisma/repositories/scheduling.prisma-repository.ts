@@ -62,7 +62,7 @@ export class SchedulingPrismaRepository implements ISchedulingRepository {
     return scheduling;
   }
   async update(scheduling: Scheduling): Promise<Scheduling> {
-    const result = await prisma.tbl_scheduling.update({
+    await prisma.tbl_scheduling.update({
       where: { id: scheduling.getId() },
       data: {
         service: { connect: { id: scheduling.getService().getId() } },
@@ -74,7 +74,7 @@ export class SchedulingPrismaRepository implements ISchedulingRepository {
         total: scheduling.getTotal(),
       },
     });
-    scheduling.setId(result.id);
+
     return scheduling;
   }
   async delete(id: number): Promise<void> {
