@@ -20,32 +20,17 @@ export class ClientPrismaRepository implements IClientRepository {
   }
   async findAll(): Promise<Client[]> {
     const result = await prisma.tbl_client.findMany();
-    const clients = result.map((item) => {
-      const client = Client.create({
-        name: item.name,
-        login: Email.create({ email: item.login }),
-        phone: Phone.createFromString(item.phone),
-      });
-      client.setId(item.id);
-      return client;
-    });
-    return clients;
+    return result.map(this.mapOutput)
   }
   async findById(id: number): Promise<Client> {
     const result = await prisma.tbl_client.findUnique({
       where: { id },
     });
     if (!result) return null;
-    const client = Client.create({
-      name: result.name,
-      login: Email.create({ email: result.login }),
-      phone: Phone.createFromString(result.phone),
-    });
-    client.setId(result.id);
-    return client;
+    return this.mapOutput(result);
   }
   async update(client: Client): Promise<Client> {
-    const result = await prisma.tbl_client.update({
+    await prisma.tbl_client.update({
       where: { id: client.getId() },
       data: {
         name: client.getName(),
@@ -53,7 +38,7 @@ export class ClientPrismaRepository implements IClientRepository {
         phone: client.getPhone().toStringFormat(),
       },
     });
-    client.setId(result.id);
+
     return client;
   }
   async delete(id: number): Promise<void> {
@@ -67,12 +52,16 @@ export class ClientPrismaRepository implements IClientRepository {
       where: { login },
     });
     if (!result) return null;
+    return this.mapOutput(result);
+  }
+
+  private mapOutput(input: {id: number, name: string, login: string, phone: string}): Client {
     const client = Client.create({
-      name: result.name,
-      login: Email.create({ email: result.login }),
-      phone: Phone.createFromString(result.phone),
+      name: input.name,
+      login: Email.create({ email: input.login }),
+      phone: Phone.createFromString(input.phone),
     });
-    client.setId(result.id);
+    client.setId(input.id);
     return client;
   }
 }
